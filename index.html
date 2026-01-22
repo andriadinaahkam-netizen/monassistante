@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Mon Assistante Personnelle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 15px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .time {
+            font-size: 48px;
+            font-weight: bold;
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+        
+        .day {
+            font-size: 20px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        
+        .motivation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .revenue-goal {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 3px solid #10b981;
+        }
+        
+        .revenue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .revenue-title {
+            font-weight: bold;
+            color: #047857;
+            font-size: 18px;
+        }
+        
+        .revenue-amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #10b981;
+        }
+        
+        .progress-bar {
+            background: #d1fae5;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            height: 100%;
+            transition: width 0.5s;
+        }
+        
+        .revenue-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        .tasks-section {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tasks-header {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        
+        .task {
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .task:active {
+            transform: scale(0.98);
+        }
+        
+        .task.completed {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        
+        .task-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .task-icon {
+            font-size: 28px;
+        }
+        
+        .task-text {
+            flex: 1;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        
+        .task-time {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+        
+        .check-icon {
+            font-size: 24px;
+        }
+        
+        .revenu { background: #d1fae5; border-color: #10b981; color: #047857; }
+        .sante { background: #dbeafe; border-color: #3b82f6; color: #1e40af; }
+        .famille { background: #fce7f3; border-color: #ec4899; color: #9f1239; }
+        .couple { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+        .perso { background: #f3f4f6; border-color: #6b7280; color: #374151; }
+        
+        .projects {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .project {
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .project-badge {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .project-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .project-desc {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        .urgent { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+        .moyen { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+        .long { background: #dbeafe; border-color: #3b82f6; color: #1e40af; }
+
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="time" id="current-time">--:--</div>
+            <div class="day" id="current-day">--</div>
+            <div class="motivation" id="motivation-msg">Bienvenue !</div>
+        </div>
+
+        <div class="revenue-goal">
+            <div class="revenue-header">
+                <div class="revenue-title">🎯 Objectif 1er février</div>
+                <div class="revenue-amount"><span id="revenue-display">0</span>€ / 600€</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <input type="number" class="revenue-input" id="revenue-input" placeholder="Montant gagné (€)" value="0">
+            <button class="reset-btn" onclick="resetDay()">🔄 Nouvelle journée</button>
+        </div>
+
+        <div class="tasks-section">
+            <div class="tasks-header">⏰ Mes tâches du moment</div>
+            <div id="tasks-container"></div>
+        </div>
+
+        <div class="projects">
+            <div class="tasks-header">💼 Mes Projets Revenus</div>
+            <div class="project urgent">
+                <div class="project-badge">🚨 URGENT - Court terme</div>
+                <div class="project-title">Comptes rendus décisionnels</div>
+                <div class="project-desc">Objectif : 600€ avant le 1er février</div>
+            </div>
+            <div class="project moyen">
+                <div class="project-badge">📚 Moyen terme</div>
+                <div class="project-title">E-books best-seller</div>
+                <div class="project-desc">Création et vente</div>
+            </div>
+            <div class="project long">
+                <div class="project-badge">🤖 Long terme</div>
+                <div class="project-title">Agents IA en France</div>
+                <div class="project-desc">Création et commercialisation</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let completedTasks = {};
+        let revenue = 0;
+
+        function loadData() {
+            const saved = localStorage.getItem('assistantData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                completedTasks = data.completedTasks || {};
+                revenue = data.revenue || 0;
+                document.getElementById('revenue-input').value = revenue;
+                updateRevenue();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('assistantData', JSON.stringify({
+                completedTasks,
+                revenue
+            }));
+        }
+
+        function resetDay() {
+            if (confirm('Réinitialiser les tâches du jour ?')) {
+                completedTasks = {};
+                saveData();
+                updateTime();
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            const day = days[now.getDay()];
+            
+            document.getElementById('current-time').textContent = time;
+            document.getElementById('current-day').textContent = day;
+            
+            updateMotivation(now);
+            updateTasks(now);
+        }
+
+        function updateMotivation(now) {
+            const hour = now.getHours();
+            const day = now.getDay();
+            let msg = '';
+
+            if (hour < 6) msg = "💪 C'est l'heure de conquérir cette journée !";
+            else if (hour < 10) msg = "🔥 Focus sur tes projets - chaque minute compte pour les 600€ !";
+            else if (hour < 13) msg = "⚡ Tu gères ! Continue comme ça, tu es sur la bonne voie";
+            else if (hour < 17) {
+                if ((day === 3 || day === 5)) {
+                    msg = "👧 Jazz arrive bientôt ! Prépare-toi";
+                } else {
+                    msg = "💼 Dernière ligne droite - reste concentrée !";
+                }
+            } else if (hour < 20) {
+                if (day === 2 || day === 4 || day === 5) {
+                    msg = "❤️ Time avec ton fiancé - profite !";
+                } else {
+                    msg = "👨‍👩‍👧 Temps en famille - profite à fond !";
+                }
+            } else {
+                msg = "🌙 Bientôt l'heure de déconnecter !";
+            }
+
+            document.getElementById('motivation-msg').textContent = msg;
+        }
+
+        function updateTasks(now) {
+            const hour = now.getHours();
+            const day = now.getDay();
+            let tasks = [];
+
+            if (hour >= 5 && hour < 10) {
+                tasks = [
+                    { id: 'weigh', icon: '⚖️', text: 'Pesée + Tour de taille', time: '5h30', priority: 'sante' },
+                    { id: 'exercise', icon: '🏋️', text: 'Exercices physiques', time: '5h40', priority: 'sante' },
+                    { id: 'tea', icon: '🍵', text: 'Tisane brûle-graisse', time: '6h15', priority: 'sante' },
+                    { id: 'clean', icon: '🧹', text: 'Ranger la chambre', time: '6h30', priority: 'perso' },
+                    { id: 'shower', icon: '🚿', text: 'Douche + Skincare', time: '6h45', priority: 'perso' },
+                    { id: 'breakfast', icon: '🥐', text: 'Petit-déj + Dents', time: '7h15', priority: 'sante' },
+                    { id: 'work1', icon: '💼', text: 'TRAVAIL - Comptes rendus €€€', time: '7h45', priority: 'revenu' },
+                    { id: 'water1', icon: '💧', text: 'Eau chaude', time: '10h00', priority: 'sante' }
+                ];
+            } else if (hour >= 10 && hour < 15) {
+                tasks = [
+                    { id: 'lunch', icon: '🥗', text: 'Déjeuner protéiné', time: '12h00', priority: 'sante' },
+                    { id: 'work2', icon: '💼', text: 'TRAVAIL - Focus revenus', time: '12h30', priority: 'revenu' },
+                    { id: 'water2', icon: '💧', text: 'Eau chaude', time: '15h00', priority: 'sante' }
+                ];
+            } else if (hour >= 15 && hour < 18) {
+                if ((day === 3 || day === 5)) {
+                    tasks = [
+                        { id: 'jazzpickup', icon: '🏫', text: 'Récupérer Jazz', time: '13h00', priority: 'famille' },
+                        { id: 'jazztime', icon: '👧', text: 'Temps avec Jazz', time: '13h30', priority: 'famille' },
+                        { id: 'snack', icon: '🍌', text: 'Yaourt/Banane', time: '16h00', priority: 'sante' },
+                        { id: 'water3', icon: '💧', text: 'Eau chaude', time: '17h00', priority: 'sante' }
+                    ];
+                } else {
+                    tasks = [
+                        { id: 'snack', icon: '🍌', text: 'Yaourt/Banane', time: '16h00', priority: 'sante' },
+                        { id: 'work3', icon: '💼', text: 'TRAVAIL - E-books', time: '16h15', priority: 'revenu' },
+                        { id: 'water3', icon: '💧', text: 'Eau chaude', time: '17h00', priority: 'sante' }
+                    ];
+                }
+                
+                if (day === 1 || day === 3) {
+                    tasks.push({ id: 'jazzevening', icon: '👧', text: 'Moments avec Jazz', time: '17h00', priority: 'famille' });
+                } else if (day === 2 || day === 4 || day === 5) {
+                    tasks.push({ id: 'couple', icon: '❤️', text: 'Temps avec ton fiancé', time: '17h00', priority: 'couple' });
+                }
+            } else if (hour >= 18) {
+                tasks = [
+                    { id: 'dinner', icon: '🍽️', text: 'Dîner protéiné', time: '18h30', priority: 'sante' },
+                    { id: 'shower2', icon: '🚿', text: 'Douche + Skincare', time: '20h00', priority: 'perso' },
+                    { id: 'checkin', icon: '📋', text: 'Check-in journée', time: '21h00', priority: 'perso' },
+                    { id: 'todo', icon: '✅', text: 'To-do demain', time: '21h15', priority: 'perso' },
+                    { id: 'sleep', icon: '😴', text: 'Coucher', time: '21h30', priority: 'sante' }
+                ];
+            }
+
+            renderTasks(tasks);
+        }
+
+        function renderTasks(tasks) {
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = tasks.map(task => `
+                <div class="task ${task.priority} ${completedTasks[task.id] ? 'completed' : ''}" 
+                     onclick="toggleTask('${task.id}')">
+                    <div class="task-content">
+                        <span class="check-icon">${completedTasks[task.id] ? '✅' : '⭕'}</span>
+                        <span class="task-icon">${task.icon}</span>
+                        <div class="task-text">
+                            <div class="task-title">${task.text}</div>
+                            <div class="task-time">${task.time}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleTask(taskId) {
+            completedTasks[taskId] = !completedTasks[taskId];
+            saveData();
+            updateTime();
+        }
+
+        function updateRevenue() {
+            revenue = parseInt(document.getElementById('revenue-input').value) || 0;
+            document.getElementById('revenue-display').textContent = revenue;
+            const percent = Math.min((revenue / 600) * 100, 100);
+            document.getElementById('progress-fill').style.width = percent + '%';
+            saveData();
+        }
+
+        document.getElementById('revenue-input').addEventListener('input', updateRevenue);
+
+        loadData();
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>
